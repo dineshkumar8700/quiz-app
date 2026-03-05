@@ -15,7 +15,26 @@
 
   <main>
     <section>
-      <h2>Main section</h2>
+      <form action="/response" method="post">
+        <fieldset>
+          <legend>
+            <h2>1. What is the capital of India?</h2>
+          </legend>
+          <div>
+            <input type="radio" name="options" id="option-1" value="Tokyo">
+            <label for="option-1">Tokyo</label>
+          </div>
+          <div>
+            <input type="radio" name="options" id="option-2" value="New Delhi">
+            <label for="option-2">New Delhi</label>
+          </div>
+          <div>
+            <input type="radio" name="options" id="option-3" value="Islamabad">
+            <label for="option-3">Islamabad</label>
+          </div>
+        </fieldset>
+        <button type="submit">Submit</button>
+      </form>
     </section>
   </main>
   <script type="module" src="scripts/quiz.js"></script>

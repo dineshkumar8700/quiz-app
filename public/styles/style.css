@@ -22,3 +22,7 @@ header {
 main {
   padding: 5em;
 }
+
+fieldset {
+  border: none;
+}
