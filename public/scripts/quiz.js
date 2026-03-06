@@ -3,6 +3,22 @@ import { createFragment, ELEMENTS } from "./dom.js";
 const { ARTICLE, FORM, FIELDSET, LEGEND, H2, DIV, INPUT, LABEL, BUTTON } =
   ELEMENTS;
 
+const fetchQuiz = async () => {
+  return {
+    question: "What is the capital of India",
+    options: ["Tokyo", "New Delhi", "Islamabad"],
+    questionNumber: 1,
+  };
+};
+
+const fetchNextQuiz = async () => {
+  return {
+    question: "What is the capital of Pakistan",
+    options: ["Paris", "Tokyo", "Islamabad"],
+    questionNumber: 2,
+  };
+};
+
 const createInput = (value, i) => [
   DIV,
   {},
@@ -10,11 +26,7 @@ const createInput = (value, i) => [
   [LABEL, { for: `option-${i}` }, value],
 ];
 
-const createQuiz = (container) => {
-  const question = "What is the capital of India";
-  const options = ["Tokyo", "New Delhi", "Islamabad"];
-  const questionNumber = 1;
-
+const createQuiz = ({ question, options, questionNumber }, container) => {
   const fragment = createFragment(
     [
       ARTICLE,
@@ -30,14 +42,28 @@ const createQuiz = (container) => {
   container.append(fragment);
 };
 
-globalThis.onload = () => {
-  const section = document.querySelector("section");
-  createQuiz(section);
+const displayNextQuiz = (section) => {
+  fetchNextQuiz()
+    .then((response) => {
+      section.firstElementChild.remove();
+      createQuiz(response, section);
+    })
+    .then((_) => attachListenrs(section));
+};
 
-  const submitBtn = document.querySelector("form button");
+const attachListenrs = (section) => {
+  const submitBtn = section.querySelector("form button");
 
   submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    alert("Hello World");
+    displayNextQuiz(section);
   });
+};
+
+globalThis.onload = () => {
+  const section = document.querySelector("section");
+
+  fetchQuiz()
+    .then((response) => createQuiz(response, section))
+    .then((_) => attachListenrs(section));
 };
